@@ -1,20 +1,20 @@
-import dishService from "../services/dishService.js";
-import response from "../utils/response.js";
+const dishService = require("../services/dishService");
+const response = require("../utils/response");
 
 
-export default {
+module.exports = {
 	addDish,
 	deleteDish,
 	updateDish,
 	getDishes,
-}
+};
 
 async function addDish(req, res, next){
 	const {newDish} = req.body;
 
 	try{
-		const result = await dishService.addDish({newDish});
-		if(!result || !result.acknowledged){
+		const storedDish = await dishService.addDish({newDish});
+		if(!storedDish){
 			response.errorResponse({
 				res,
 				code: 400,
@@ -28,6 +28,9 @@ async function addDish(req, res, next){
 			res,
 			code: 200,
 			message: "dish has been added.",
+			data: {
+				dish: storedDish,
+			}
 		});
 	}
 	catch(error){
@@ -66,15 +69,14 @@ async function getDishes(req, res, next){
 
 async function deleteDish(req, res, next){
 	const {dishId} = req.body;
-
+	
 	try{
 		const result = await dishService.deleteDish({dishId});
-		
-		if(result.modifiedCount === 0){
+		if(!result.success){
 			response.errorResponse({
 				res,
 				code: 400,
-				errors: ["Fail to add dish."],
+				errors: result.errors,
 			});
 
 			return;
@@ -83,7 +85,7 @@ async function deleteDish(req, res, next){
 		response.successResponse({
 			res,
 			code: 200,
-			message: "dish has been added.",
+			message: "Dish has been removed.",
 		});
 	}
 	catch(error){
@@ -92,10 +94,10 @@ async function deleteDish(req, res, next){
 }
 
 async function updateDish(req, res, next){
-	const {dishId, update} = req.body;
+	const {dishId, updateProperty, update} = req.body;
 
 	try{
-		const result = await dishService.updateDish({dishId, update});
+		const result = await dishService.updateDish({dishId, updateProperty, update});
 		
 		if(result.modifiedCount === 0){
 			response.errorResponse({

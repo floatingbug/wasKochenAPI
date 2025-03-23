@@ -1,10 +1,10 @@
-import "dotenv/config";
-import {connectDB} from "./src/config/db.js";
-import express from "express";
-import cors from "cors";
-import dishRoutes from "./src/routes/dishRoutes.js";
-import fileRoutes from "./src/routes/fileRoutes.js";
-import response from "./src/utils/response.js";
+require("dotenv").config();
+const {connectDB} = require("./src/config/db");
+const express = require("express");
+const cors = require("cors");
+const dishRoutes = require("./src/routes/dishRoutes");
+const fileRoutes = require("./src/routes/fileRoutes");
+const response = require("./src/utils/response");
 
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use("/uploads", express.static("upload"));
+app.use("/uploads", express.static("uploads"));
 
 app.use("/dish", dishRoutes);
 app.use("/file", fileRoutes);

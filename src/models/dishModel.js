@@ -1,9 +1,10 @@
-import {getDB} from "../config/db.js";
+const {getDB} = require("../config/db.js");
 
 
-export default {
+module.exports = {
 	addDish,
 	getDishes,
+	getDishById,
 	deleteDish,
 	updateDish,
 };
@@ -12,6 +13,11 @@ export default {
 async function addDish({doc}){
 	const db = await getDB();
 	return db.collection("dishes").insertOne(doc);
+}
+
+async function getDishById({query}){
+	const db = await getDB();
+	return db.collection("dishes").findOne(query);
 }
 
 async function getDishes({query}){

@@ -1,5 +1,5 @@
-import express from "express";
-import dishController from "../controllers/dishController.js";
+const express = require("express");
+const dishController = require("../controllers/dishController");
 
 
 const dishRoutes = express.Router();
@@ -11,4 +11,4 @@ dishRoutes.delete("/", dishController.deleteDish);
 dishRoutes.patch("/", dishController.updateDish);
 
 
-export default dishRoutes;
+module.exports = dishRoutes;

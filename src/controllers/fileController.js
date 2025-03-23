@@ -1,9 +1,9 @@
-import response from "../utils/response.js";
+const response = require("../utils/response");
 
 
 const fileController = {
 	addDishImage,
-}
+};
 
 
 async function addDishImage(req, res, next){
@@ -18,4 +18,4 @@ async function addDishImage(req, res, next){
 }
 
 
-export default fileController;
+module.exports = fileController;
