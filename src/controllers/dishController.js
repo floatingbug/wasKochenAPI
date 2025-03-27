@@ -62,7 +62,7 @@ async function getDishes(req, res, next){
 			}
 		});
 	}
-	catch(errro){
+	catch(error){
 		next(error);
 	}
 }

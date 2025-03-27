@@ -20,10 +20,22 @@ async function getDishById({query}){
 	return db.collection("dishes").findOne(query);
 }
 
-async function getDishes({query}){
+async function getDishes({query, filter}){
 	const db = await getDB();
-	const result = db.collection("dishes").find(query);
-	return result.toArray();
+	const cursor = db.collection("dishes").find(query);
+
+	if(filter){
+		if(filter.sort){
+			cursor.sort({
+				[filter.sort.name]: filter.sort.value,
+			});
+		}
+		if(filter.limit){
+			cursor.limit(filter.limit);
+		}
+	}
+
+	return cursor.toArray();
 }
 
 async function deleteDish({doc}){

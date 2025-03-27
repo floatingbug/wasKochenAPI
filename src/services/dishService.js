@@ -15,6 +15,7 @@ module.exports = {
 async function addDish({newDish}){
 	const doc = {
 		dishId: randomUUID(),
+		timestamp: Date.now(),
 		dish: newDish,
 	};
 
@@ -66,14 +67,15 @@ async function deleteDish({dishId}){
 
 async function getDishes({queries}){
 	let query = {};
+	let filter = {};
 
+	//create query
 	if(queries.categories){
 		const categories = queries.categories.split(",").map(categorie => categorie.trim());
 		query["dish.categories"] = {
 			"$all": categories,
 		};
 	}
-
 	if(queries.kilocalories){
 		const [min, max] = queries.kilocalories.split("-").map(n => Number(n));
 
@@ -82,15 +84,65 @@ async function getDishes({queries}){
 			$lte: max,
 		}
 	}
-
 	if(queries.recipeName){
 		query["dish.recipeName"] = {
 			$regex: queries.recipeName,
 			$options: "i",
 		};
 	}
+	if(queries.preparationTime){
+		query["dish.preparationTime"] = {
+			$lte: Number(queries.preparationTime),
+		}
+	}
+	if(queries.difficulty){
+		query["dish.difficulty"] = {
+			$gte: Number(queries.difficulty),
+		}
+	}
+	if(queries.portions){
+		query["dish.portions"] = {
+			$gte: Number(queries.portions),
+		}
+	}
 
-	return dishModel.getDishes({query});
+	//create filter
+	if(queries.sort){
+		let [name, value] = queries.sort.split("-");
+		if(value === "descending") value = -1;
+		else if(value === "ascending") value = 1;
+		filter.sort = {
+			name,
+			value,
+		}
+	}
+	if(queries.limit){
+		filter.limit = Number(queries.limit);
+	}
+
+	try{
+		const result = await dishModel.getDishes({query, filter});
+
+		if(queries.random && queries.random < result.length){
+			let indexes = new Set();
+			let dishes = [];
+
+			while (indexes.size < queries.random) {
+				indexes.add(Math.floor(Math.random() * result.length));
+			}
+
+			for(let index of indexes){
+				dishes.push(result[index])
+			}
+
+			return dishes;
+		}
+
+		return result;
+	}
+	catch(error){
+		throw error;
+	}
 }
 
 async function updateDish({dishId, updateProperty, update}){
