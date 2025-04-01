@@ -5,6 +5,7 @@ const cors = require("cors");
 const dishRoutes = require("./src/routes/dishRoutes");
 const fileRoutes = require("./src/routes/fileRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+const groupRoutes = require("./src/routes/groupRoutes");
 const response = require("./src/utils/response");
 
 
@@ -24,6 +25,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/dish", dishRoutes);
 app.use("/file", fileRoutes);
 app.use("/user", userRoutes);
+app.use("/group", groupRoutes);
 
 
 app.use((err, req, res, next) => {
