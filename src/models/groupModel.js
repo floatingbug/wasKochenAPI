@@ -22,7 +22,6 @@ async function getGroups({query}){
 		const db = await getDB();
 		const cursor = await db.collection("groups").find(query);
 		const groups = await cursor.toArray();
-		console.log(groups);
 		return groups;
 	}
 	catch(error){
