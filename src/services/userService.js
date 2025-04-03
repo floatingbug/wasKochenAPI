@@ -1,6 +1,8 @@
 const userModel = require("../models/userModel.js");
+const weekPlanModel = require("../models/weekPlanModel");
 const {randomUUID} = require("crypto");
 const jwt = require("jsonwebtoken");
+const weekPlanSchema = require("../data/weekPlanSchema");
 
 
 const userService = {
@@ -10,6 +12,9 @@ const userService = {
 
 
 async function addUser({name, mail, password}){
+	const userId = randomUUID();
+	const weekPlanId = randomUUID();
+
 	//check if email or name already exists
 	try{
 		const query = {
@@ -38,14 +43,29 @@ async function addUser({name, mail, password}){
 			name,
 			mail,
 			password,
-			userId: randomUUID(),
+			userId,
 			groupIds: [],
 		};
 
 		const result = await userModel.addUser({doc});
+	}
+	catch(error){
+		throw error;
+	}
+
+	//add week plan
+	try{
+		const doc = {
+			userId,
+			weekPlanId,
+			weekPlan: weekPlanSchema,
+		};
+
+		const result = await weekPlanModel.addWeekPlan({doc});
 
 		return {
 			success: true,
+			code: 200,
 			message: "User has been added.",
 		};
 	}
