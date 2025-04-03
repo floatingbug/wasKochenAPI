@@ -7,6 +7,7 @@ module.exports = {
 	deleteDish,
 	updateDish,
 	getDishes,
+	getDishById,
 };
 
 async function addDish(req, res, next){
@@ -60,6 +61,26 @@ async function getDishes(req, res, next){
 			data: {
 				dishes,
 			}
+		});
+	}
+	catch(error){
+		next(error);
+	}
+}
+
+async function getDishById(req, res, next){
+	const dishId = req.query.dishId;
+
+	try{
+		const result = await dishService.getDishById({dishId});
+
+		response.successResponse({
+			res,
+			code: result.code,
+			message: result.message,
+			data: {
+				dish: result.dish,
+			},
 		});
 	}
 	catch(error){

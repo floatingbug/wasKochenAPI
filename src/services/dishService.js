@@ -9,6 +9,7 @@ module.exports = {
 	deleteDish,
 	updateDish,
 	getDishes,
+	getDishById,
 };
 
 
@@ -139,6 +140,26 @@ async function getDishes({queries}){
 		}
 
 		return result;
+	}
+	catch(error){
+		throw error;
+	}
+}
+
+async function getDishById({dishId}){
+	try{
+		const query = {
+			dishId,
+		};
+
+		const result = await dishModel.getDishById({query});
+
+		return {
+			success: true,
+			code: 200,
+			message: "Dish has been sent.",
+			dish: result.dish,
+		};
 	}
 	catch(error){
 		throw error;
