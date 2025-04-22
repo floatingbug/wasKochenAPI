@@ -1,5 +1,6 @@
 module.exports = {
 	monday: {
+		dayName: "Montag",
         breakfast: {
             id: "1",
             name: "",
@@ -23,6 +24,7 @@ module.exports = {
         }
     },
     tuesday: {
+		dayName: "Dienstag",
         breakfast: {
             id: "4",
             name: "",
@@ -46,6 +48,7 @@ module.exports = {
         }
     },
     wednesday: {
+		dayName: "Mittwoch",
         breakfast: {
             id: "7",
             name: "",
@@ -69,6 +72,7 @@ module.exports = {
         }
     },
     thursday: {
+		dayName: "Donnerstag",
         breakfast: {
             id: "10",
             name: "",
@@ -92,6 +96,7 @@ module.exports = {
         }
     },
     friday: {
+		dayName: "Freitag",
         breakfast: {
             id: "13",
             name: "",
@@ -115,6 +120,7 @@ module.exports = {
         }
     },
     saturday: {
+		dayName: "Samstag",
         breakfast: {
             id: "16",
             name: "",
@@ -138,6 +144,7 @@ module.exports = {
         }
     },
     sunday: {
+		dayName: "Sonntag",
         breakfast: {
             id: "19",
             name: "",

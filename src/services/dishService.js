@@ -17,6 +17,7 @@ async function addDish({newDish}){
 	const doc = {
 		dishId: randomUUID(),
 		timestamp: Date.now(),
+		rating: 0,
 		dish: newDish,
 	};
 

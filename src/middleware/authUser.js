@@ -3,6 +3,7 @@ const response = require("../utils/response");
 
 
 async function authUser(req, res, next){
+
 	const authHeader = req.headers["authorization"];
 	if(!authHeader) {
 		response.errorResponse({
