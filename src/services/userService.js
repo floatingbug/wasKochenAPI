@@ -76,6 +76,17 @@ async function addUser({name, mail, password}){
 
 async function createToken({nameOrMail, password}){
 	let user = null;
+	
+	//test user
+	if(nameOrMail === "user" && password === "user"){
+
+		return {
+			success: true,
+			message: "Token has been created.",
+			code: 200,
+			token: "1",
+		};
+	}
 
 	//get user
 	try{

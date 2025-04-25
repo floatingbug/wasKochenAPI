@@ -8,6 +8,7 @@ const dishRoutes = express.Router();
 
 dishRoutes.get("/", dishController.getDishes);
 dishRoutes.get("/get-dish-by-id", dishController.getDishById);
+dishRoutes.get("/get-own-dishes", authUser, dishController.getOwnDishes);
 dishRoutes.post("/", authUser, dishController.addDish);
 dishRoutes.delete("/", authUser, dishController.deleteDish);
 dishRoutes.patch("/", authUser, dishController.updateDish);

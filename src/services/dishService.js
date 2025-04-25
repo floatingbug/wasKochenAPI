@@ -10,11 +10,13 @@ module.exports = {
 	updateDish,
 	getDishes,
 	getDishById,
+	getOwnDishes,
 };
 
 
-async function addDish({newDish}){
+async function addDish({userId, newDish}){
 	const doc = {
+		userId,
 		dishId: randomUUID(),
 		timestamp: Date.now(),
 		rating: 0,
@@ -167,7 +169,49 @@ async function getDishById({dishId}){
 	}
 }
 
-async function updateDish({dishId, updateProperty, update}){
+async function getOwnDishes({userId}){
+	try{
+		const query = {
+			userId,
+		};
+
+		console.log(userId);
+
+		const result = await dishModel.getOwnDishes({query});
+
+		return {
+			success: true,
+			code: 200,
+			message: "Dishes has been sent.",
+			dishes: result,
+		};
+	}
+	catch(error){
+		throw error;
+	}
+}
+
+async function updateDish({userId, dishId, updateProperty, update}){
+	//check if dish belongs to user
+	try{
+		const query = {
+			dishId
+		};
+
+		const result = await dishModel.getDishById({query});
+		if(!result) {
+			return null;
+		}
+
+		if(result.userId !== userId){
+			return null;
+		}
+	}
+	catch(error){
+		throw error;
+	}
+	
+	//update dish
 	const filter = {
 		dishId,
 	};

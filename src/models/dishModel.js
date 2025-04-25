@@ -5,6 +5,7 @@ module.exports = {
 	addDish,
 	getDishes,
 	getDishById,
+	getOwnDishes,
 	deleteDish,
 	updateDish,
 };
@@ -18,6 +19,14 @@ async function addDish({doc}){
 async function getDishById({query}){
 	const db = await getDB();
 	return db.collection("dishes").findOne(query);
+}
+
+async function getOwnDishes({query}){
+	const db = await getDB();
+	const cursor = db.collection("dishes").find(query);
+	const dishes = await cursor.toArray();
+
+	return dishes;
 }
 
 async function getDishes({query, filter}){
