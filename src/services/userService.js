@@ -12,8 +12,15 @@ const userService = {
 
 
 async function addUser({name, mail, password}){
-	const userId = randomUUID();
+	let userId = "";
 	const weekPlanId = randomUUID();
+	
+	if(name === "user" && password === "user"){
+		userId = "1";
+	}
+	else {
+		userId = randomUUID();
+	}
 
 	//check if email or name already exists
 	try{
